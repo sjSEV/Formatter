@@ -9,7 +9,7 @@ import java.io.InputStream;
  * FileReader Class
  * For reading from the file
  */
-public class FileReader implements IReader, ICloseable {
+public class FileReader implements IReader {
 
     private static final int NULL_CHARACTER = 0;
 

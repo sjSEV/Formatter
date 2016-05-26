@@ -8,7 +8,7 @@ import java.io.InputStream;
  * StringReader Class
  * for reading from the string
  */
-public class StringReader implements IReader, ICloseable {
+public class StringReader implements IReader {
 
     private static final int NULL_CHARACTER = 0;
 

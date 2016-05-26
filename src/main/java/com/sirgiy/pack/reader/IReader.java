@@ -19,4 +19,10 @@ public interface IReader {
      * @return true if has following character
      */
     boolean hasnext() throws ReaderException;
+
+    /**
+     * Closing the input stream
+     * @throws ReaderException if the stream is not close
+     */
+    void close() throws ReaderException;
 }

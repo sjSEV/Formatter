@@ -1,7 +1,6 @@
 package com.sirgiy.pack.main;
 
-import com.sirgiy.pack.formatter.Formatter;
-import com.sirgiy.pack.formatter.FormatterException;
+import com.sirgiy.pack.formatter.*;
 import com.sirgiy.pack.reader.FileReader;
 import com.sirgiy.pack.reader.IReader;
 import com.sirgiy.pack.reader.ReaderException;
@@ -29,10 +28,12 @@ public final class Bootstrap {
      * @throws ReaderException reading exception handling
      * @throws WriterException writing exception handling
      * @throws FormatterException formatting exception handling
+     * @throws FiniteAutomatonException exception handling
      */
-    public static void main(final String[] args) throws ReaderException, WriterException, FormatterException {
+    public static void main(final String[] args) throws ReaderException, WriterException, FormatterException, FiniteAutomatonException {
         IReader ireader = null;
         IWriter iwriter = null;
+        IFiniteAutomaton iFiniteAutomaton = null;
 
         if (args.length == 2) {
             try {
@@ -50,12 +51,27 @@ public final class Bootstrap {
             } catch (WriterException e2) {
                 throw new WriterException(e2);
             }
+
             Formatter formatter = new Formatter();
-            formatter.format(ireader, iwriter);
+
+            try {
+                iFiniteAutomaton = new FiniteAutomaton(new FileReader(".properties"));
+            } catch (FiniteAutomatonException e) {
+                throw new FiniteAutomatonException(e);
+            }
+
+            formatter.format(ireader, iwriter, iFiniteAutomaton);
+
             try {
                 iwriter.close();
             } catch (NullPointerException e) {
                 throw new WriterException(e);
+            }
+
+            try {
+                ireader.close();
+            } catch (NullPointerException e) {
+                throw new ReaderException(e);
             }
         } else {
             help();
